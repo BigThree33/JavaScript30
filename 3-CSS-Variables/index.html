@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Update With CSS Variables <span class="h1">JS</span></h2>
+    <div class="controls">
+        <label for="spacing"> Spacing:</label>
+        <input type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+    
+        <label for="blur"> Blur:</label>
+        <input type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+
+        <label for="base"> Base Color:</label>
+        <input type="color" name="base" value="#ffc600">
+    </div>
+    <img src="https://unsplash.it/500/500?image=1062">
+
+    <style>
+        :root {
+            --base: #ffc600;
+            --spacing: 10px;
+            --blur: 10px;
+        }
+        img {
+            padding: var(--spacing);   
+            background: var(--base);
+            filter: blur(var(--blur));
+        }
+
+        .h1 {
+            color: var(--base);
+        }
+
+        body {
+            text-align: center;
+        }
+
+        body {
+            background: #193549;
+            color: white;
+            font-weight: 100;
+        }
+    </style>
+
+<script>
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+        const suffix = this.dataset.sizing || '';
+        // dataset是一个DOM元素的数据集对象，包含了所有以data-开头的属性，属性名是去掉data-后的部分，并且转换为驼峰命名法的形式
+        // console.log(this.dataset);
+        console.log(suffix);
+        document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+        // CSS 变量本身是继承的，所以 --spacing 的值会传递给所有后代元素。
+        // 但继承值不等于自动应用——子元素必须主动通过 var(--spacing) 使用它，才会产生视觉效果。
+        // console.log(document.documentElement.style);
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+
+</script>
+
+</body>
+</html>
